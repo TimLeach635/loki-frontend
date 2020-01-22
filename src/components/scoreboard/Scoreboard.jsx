@@ -14,12 +14,12 @@ const Scoreboard = () => {
   }
 
   return (
-    <React.Fragment>
+    <main>
       <h2 className="title is-2">Scoreboard</h2>
       <ol>
         {scoreboard ? scoreboard.map((name, i) => <li key={i}>{name}</li>) : null}
       </ol>
-    </React.Fragment>
+    </main>
   )
 }
 
