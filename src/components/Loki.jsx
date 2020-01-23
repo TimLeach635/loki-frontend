@@ -3,6 +3,7 @@ import Navbar from './navbar/Navbar'
 import Scoreboard from './scoreboard/Scoreboard'
 import PlayerList from './players/PlayerList'
 import GameList from './games/GameList'
+import MatchList from './matches/MatchList'
 
 const Loki = () => {
   // Use state to hold what page we're on
@@ -24,6 +25,9 @@ const Loki = () => {
       break
     case 'games':
       Component = GameList
+      break
+    case 'matches':
+      Component = MatchList
       break
     default:
       Component = Scoreboard
