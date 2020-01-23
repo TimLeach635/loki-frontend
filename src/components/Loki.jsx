@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar from './navbar/Navbar'
 import Scoreboard from './scoreboard/Scoreboard'
 import PlayerList from './players/PlayerList'
+import GameList from './games/GameList'
 
 const Loki = () => {
   // Use state to hold what page we're on
@@ -20,6 +21,9 @@ const Loki = () => {
       break
     case 'players':
       Component = PlayerList
+      break
+    case 'games':
+      Component = GameList
       break
     default:
       Component = Scoreboard
