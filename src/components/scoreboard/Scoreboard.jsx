@@ -16,9 +16,18 @@ const Scoreboard = () => {
   return (
     <main>
       <h2 className="title is-2">Scoreboard</h2>
-      <ol>
-        {scoreboard ? scoreboard.map((name, i) => <li key={i}>{name}</li>) : null}
-      </ol>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          {scoreboard ? scoreboard.map((row, i) => <tr key={i}><td>{i + 1}</td><td>{row.player_name}</td><td>{row.player_wins}</td></tr>) : null}
+        </tbody>
+      </table>
     </main>
   )
 }
