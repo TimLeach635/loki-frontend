@@ -5,6 +5,8 @@ import PlayerList from './players/PlayerList'
 import GameList from './games/GameList'
 import MatchList from './matches/MatchList'
 
+import lokiLogo from '../Loki_logo.png'
+
 const Loki = () => {
   // Use state to hold what page we're on
   const [ page, setPage ] = useState('home')
@@ -37,8 +39,17 @@ const Loki = () => {
   return (
     <React.Fragment>
       <div className="container">
-        <h1 className="title is-1">Loki</h1>
-        <p className="subtitle is-3">Who's winning?</p>
+        <div className="columns is-mobile">
+          <div className="column is-1">
+            <figure className="image is-2by3">
+              <img src={lokiLogo} alt="Loki logo" />
+            </figure>
+          </div>
+          <div className="column">
+            <h1 className="title is-1">Loki</h1>
+            <p className="subtitle is-3">Who's winning?</p>
+          </div>
+        </div>
         <hr />
         <Navbar goHome={goHome} goPlayers={goPlayers} goGames={goGames} goMatches={goMatches} />
         <hr />
