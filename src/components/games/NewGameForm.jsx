@@ -29,7 +29,7 @@ const NewGameForm = ({refreshFunc}) => {
 
   return (
     <React.Fragment>
-      <h2 className="title is-2">Add new</h2>
+      <h2 className="title is-3">Add new</h2>
       <div className="field">
         <label className="label">
           Game name

@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewGameForm from './NewGameForm'
 
 const GameList = () => {
   // Use state, to fetch game list from API asynchronously
   const [ gameList, setGameList ] = useState(undefined)
+  const [ requireUpdate, setRequireUpdate ] = useState(true)
 
   const refresh = () => {
-    fetch("http://localhost:5000/games/").then(response => {
-      response.json().then(json => {
-        setGameList(json.games)
-      })
-    })
+    setRequireUpdate(true)
   }
 
-  // Fetch current game list if we don't have it
-  if (!gameList) {
-    refresh()
-  }
+  useEffect(() => {
+    if (requireUpdate) {
+      const updateGameList = async () => {
+        const fetchResponse = await fetch("http://localhost:5000/games/")
+        const responseJson = await fetchResponse.json()
+  
+        setRequireUpdate(false)
+        setGameList(responseJson.games)
+      }
+  
+      updateGameList()
+    }
+  }, [requireUpdate])  // This effect will re-run every time requireUpdate changes
 
   return (
     <main>

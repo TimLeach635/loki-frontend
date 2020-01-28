@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewPlayerForm from './NewPlayerForm'
 
 const PlayerList = () => {
   // Use state, to fetch player list from API asynchronously
   const [ playerList, setPlayerList ] = useState(undefined)
+  const [ requireUpdate, setRequireUpdate ] = useState(true)
 
   const refresh = () => {
     fetch("http://localhost:5000/players/").then(response => {
@@ -13,10 +14,19 @@ const PlayerList = () => {
     })
   }
 
-  // Fetch current player list if we don't have it
-  if (!playerList) {
-    refresh()
-  }
+  useEffect(() => {
+    if (requireUpdate) {
+      const updatePlayerList = async () => {
+        const fetchResponse = await fetch("http://localhost:5000/players/")
+        const responseJson = await fetchResponse.json()
+  
+        setRequireUpdate(false)
+        setPlayerList(responseJson.players)
+      }
+
+      updatePlayerList()
+    }
+  }, [requireUpdate])
 
   return (
     <main>
