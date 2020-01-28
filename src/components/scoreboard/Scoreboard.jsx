@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 
 const Scoreboard = () => {
-  // Use state, to fetch scoreboard from API asynchronously
-  const [ scoreboard, setScoreboard ] = useState(undefined)
+  // Use state, to fetch player list from API asynchronously
+  const [ playerList, setPlayerList ] = useState(undefined)
 
-  // Fetch current scoreboard if we don't have it
-  if (!scoreboard) {
-    fetch("http://localhost:5000").then(response => {
+  // Fetch current playr list if we don't have it
+  if (!playerList) {
+    fetch("http://localhost:5000/players/").then(response => {
       response.json().then(json => {
-        setScoreboard(json.scoreboard)
+        setPlayerList(json.players)
       })
     })
   }
@@ -22,14 +22,42 @@ const Scoreboard = () => {
             <th>Rank</th>
             <th>Player</th>
             <th>Wins</th>
+            <th>Games played</th>
+            <th>Win ratio</th>
           </tr>
         </thead>
         <tbody>
-          {scoreboard ? scoreboard.map((row, i) => <tr key={i}><td>{i + 1}</td><td>{row.player_name}</td><td>{row.player_wins}</td></tr>) : null}
+          {playerList ? calculateScoreboard(playerList).map((player, i) => <tr key={i}>
+            <td>{i + 1}</td>
+            <td>{player.full_name}</td>
+            <td>{player.win_count}</td>
+            <td>{player.play_count}</td>
+            <td>{player.win_ratio.toPrecision(2)}</td>
+          </tr>) : null}
         </tbody>
       </table>
     </main>
   )
+}
+
+const calculateScoreboard = playerList => {
+  // Map each player to their win ratio
+  const winRatioList = playerList.map(player => {
+    const winCount = player.plays.filter(play => play.did_win).length
+    const playCount = player.plays.length
+
+    return {
+      full_name: `${player.first_name} ${player.last_name}`,
+      win_count: winCount,
+      play_count: playCount,
+      win_ratio: winCount / playCount
+    }
+  })
+
+  // Then order
+  const scoreboard = winRatioList.filter(player => player.play_count > 0).sort((playerA, playerB) => playerB.win_ratio - playerA.win_ratio)
+
+  return scoreboard
 }
 
 export default Scoreboard
