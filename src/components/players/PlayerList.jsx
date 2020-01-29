@@ -7,11 +7,7 @@ const PlayerList = () => {
   const [ requireUpdate, setRequireUpdate ] = useState(true)
 
   const refresh = () => {
-    fetch("http://localhost:5000/players/").then(response => {
-      response.json().then(json => {
-        setPlayerList(json.players)
-      })
-    })
+    setRequireUpdate(true)
   }
 
   useEffect(() => {
