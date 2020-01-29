@@ -4,6 +4,8 @@ import xor from 'logical-xor'
 const NewMatchForm = ({refreshFunc}) => {
   const [ playerList, setPlayerList ] = useState(undefined)
   const [ gameList, setGameList ] = useState(undefined)
+  const [ gameData, setGameData ] = useState(undefined)
+  const [ dateData, setDateData ] = useState(new Date())
   const [ playData, setPlayData ] = useState({})
 
   const handleSubmit = () => {
@@ -25,8 +27,8 @@ const NewMatchForm = ({refreshFunc}) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        game_id: 1,
-        date: new Date(),
+        game_id: gameData,
+        date: dateData,
         winner_ids: winner_ids,
         non_winner_ids: non_winner_ids
       })
@@ -55,6 +57,7 @@ const NewMatchForm = ({refreshFunc}) => {
       const responseJson = await fetchResponse.json()
 
       setGameList(responseJson.games)
+      setGameData(responseJson.games[0].game_id)
     }
 
     updatePlayerList()
@@ -73,6 +76,14 @@ const NewMatchForm = ({refreshFunc}) => {
     }
   }
 
+  const onGameSelectChange = event => {
+    setGameData(event.target.value)
+  }
+
+  const onDateChange = event => {
+    setDateData(new Date(event.target.value))
+  }
+
   return (
     <React.Fragment>
       <h2 className="title is-3">Add new</h2>
@@ -80,10 +91,17 @@ const NewMatchForm = ({refreshFunc}) => {
         <div className="label">Game</div>
         <div className="control">
           <div className="select">
-            <select>
-              {gameList ? gameList.map(game => <option key={game.game_id}>{game.name}</option>) : null}
+            <select value={gameData} onChange={onGameSelectChange}>
+              {gameList ? gameList.map(game => 
+                <option key={game.game_id} value={game.game_id}>{game.name}</option>) : null}
             </select>
           </div>
+        </div>
+      </div>
+      <div className="field">
+        <div className="label">Date</div>
+        <div className="control">
+          <input className="input" type="date" onChange={onDateChange} />
         </div>
       </div>
       <table className="table">
