@@ -11,6 +11,13 @@ const MatchList = () => {
     setRequireUpdate(true)
   }
 
+  const deleteMatch = async matchId => {
+    await fetch(`http://localhost:5000/matches/${matchId}/`, {
+      method: "DELETE"
+    })
+    refresh()
+  }
+
   useEffect(() => {
     if (requireUpdate) {
       const updateMatchList = async () => {
@@ -28,7 +35,7 @@ const MatchList = () => {
   return (
     <main>
       <h2 className="title is-2">Matches</h2>
-      {matchList ? matchList.map((match, i) => <Match key={i} match={match} />) : null}
+      {matchList ? matchList.map((match, i) => <Match key={i} match={match} deleteFunc={deleteMatch} />) : null}
       <hr />
       <NewMatchForm refreshFunc={refresh} />
     </main>

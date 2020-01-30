@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Match = ({ match }) => {
+const Match = ({ match, deleteFunc }) => {
   return (
     <div className="media">
       <div className="media-left">
-        <button className="delete" />
+        <button className="delete" onClick={() => {deleteFunc(match.match_id)}} />
       </div>
       <div className="media-content">
         <div className="content">
