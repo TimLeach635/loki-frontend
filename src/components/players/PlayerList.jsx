@@ -10,6 +10,13 @@ const PlayerList = () => {
     setRequireUpdate(true)
   }
 
+  const deletePlayer = async player_id => {
+    await fetch(`http://localhost:5000/players/${player_id}/`, {
+      method: "DELETE"
+    })
+    refresh()
+  }
+
   useEffect(() => {
     if (requireUpdate) {
       const updatePlayerList = async () => {
@@ -27,9 +34,17 @@ const PlayerList = () => {
   return (
     <main>
       <h2 className="title is-2">Players</h2>
-      <ul>
-        {playerList ? playerList.map((player, i) => <li key={i}>{`${player.first_name} ${player.last_name}`}</li>) : null}
-      </ul>
+      <table className="table">
+        <tbody>
+          {playerList ? playerList.map((player, i) =>
+            <tr key={i}>
+              <td>
+                <button className="delete" onClick={() => {deletePlayer(player.player_id)}} />
+              </td>
+              <td>{`${player.first_name} ${player.last_name}`}</td>
+            </tr>) : null}
+        </tbody>
+      </table>
       <hr />
       <NewPlayerForm refreshFunc={refresh} />
     </main>

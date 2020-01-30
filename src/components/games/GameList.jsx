@@ -10,6 +10,13 @@ const GameList = () => {
     setRequireUpdate(true)
   }
 
+  const deleteGame = async game_id => {
+    await fetch(`http://localhost:5000/games/${game_id}/`, {
+      method: "DELETE"
+    })
+    refresh()
+  }
+
   useEffect(() => {
     if (requireUpdate) {
       const updateGameList = async () => {
@@ -27,9 +34,17 @@ const GameList = () => {
   return (
     <main>
       <h2 className="title is-2">Games</h2>
-      <ul>
-        {gameList ? gameList.map((game, i) => <li key={i}>{game.name}</li>) : null}
-      </ul>
+      <table className="table">
+        <tbody>
+          {gameList ? gameList.map((game, i) =>
+            <tr key={i}>
+              <td>
+                <button className="delete" onClick={() => {deleteGame(game.game_id)}} />
+              </td>
+              <td>{game.name}</td>
+            </tr>) : null}
+        </tbody>
+      </table>
       <hr />
       <NewGameForm refreshFunc={refresh} />
     </main>
