@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NewPlayerForm from './NewPlayerForm'
 
-const PlayerList = () => {
+const PlayerList = ({backendUrl}) => {
   // Use state, to fetch player list from API asynchronously
   const [ playerList, setPlayerList ] = useState(undefined)
   const [ requireUpdate, setRequireUpdate ] = useState(true)
@@ -11,7 +11,7 @@ const PlayerList = () => {
   }
 
   const deletePlayer = async player_id => {
-    await fetch(`http://localhost:5000/players/${player_id}/`, {
+    await fetch(`${backendUrl}/players/${player_id}/`, {
       method: "DELETE"
     })
     refresh()
@@ -20,7 +20,7 @@ const PlayerList = () => {
   useEffect(() => {
     if (requireUpdate) {
       const updatePlayerList = async () => {
-        const fetchResponse = await fetch("http://localhost:5000/players/")
+        const fetchResponse = await fetch(`${backendUrl}/players/`)
         const responseJson = await fetchResponse.json()
   
         setRequireUpdate(false)
@@ -29,7 +29,7 @@ const PlayerList = () => {
 
       updatePlayerList()
     }
-  }, [requireUpdate])
+  }, [backendUrl, requireUpdate])
 
   return (
     <main>
@@ -46,7 +46,7 @@ const PlayerList = () => {
         </tbody>
       </table>
       <hr />
-      <NewPlayerForm refreshFunc={refresh} />
+      <NewPlayerForm backendUrl={backendUrl} refreshFunc={refresh} />
     </main>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import xor from 'logical-xor'
 
-const NewMatchForm = ({refreshFunc}) => {
+const NewMatchForm = ({backendUrl, refreshFunc}) => {
   const [ playerList, setPlayerList ] = useState(undefined)
   const [ gameList, setGameList ] = useState(undefined)
   const [ gameData, setGameData ] = useState(undefined)
@@ -21,7 +21,7 @@ const NewMatchForm = ({refreshFunc}) => {
     }
 
     // Submit as POST request to backend
-    fetch("http://localhost:5000/matches/", {
+    fetch(`${backendUrl}/matches/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -39,7 +39,7 @@ const NewMatchForm = ({refreshFunc}) => {
 
   useEffect(() => {
     const updatePlayerList = async () => {
-      const fetchResponse = await fetch("http://localhost:5000/players/")
+      const fetchResponse = await fetch(`${backendUrl}/players/`)
       const responseJson = await fetchResponse.json()
 
       const newPlayData = {}
@@ -53,7 +53,7 @@ const NewMatchForm = ({refreshFunc}) => {
       setPlayerList(responseJson.players)
     }
     const updateGameList = async () => {
-      const fetchResponse = await fetch("http://localhost:5000/games/")
+      const fetchResponse = await fetch(`${backendUrl}/games/`)
       const responseJson = await fetchResponse.json()
 
       setGameList(responseJson.games)
@@ -62,7 +62,7 @@ const NewMatchForm = ({refreshFunc}) => {
 
     updatePlayerList()
     updateGameList()
-  }, [])
+  }, [backendUrl])
 
   const generateCheckboxFunction = (id, win) => {
     return () => {

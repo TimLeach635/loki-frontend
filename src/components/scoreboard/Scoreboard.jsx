@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 
-const Scoreboard = () => {
+const Scoreboard = ({backendUrl}) => {
   // Use state, to fetch player list from API asynchronously
   const [ playerList, setPlayerList ] = useState(undefined)
 
-  // Fetch current playr list if we don't have it
+  // Fetch current player list if we don't have it
   if (!playerList) {
-    fetch("http://localhost:5000/players/").then(response => {
+    fetch(`${backendUrl}/players/`).then(response => {
       response.json().then(json => {
         setPlayerList(json.players)
       })
@@ -55,9 +55,9 @@ const calculateScoreboard = playerList => {
   })
 
   // Then order
-  const scoreboard = winRatioList.filter(player => player.play_count > 0).sort((playerA, playerB) => playerB.win_ratio - playerA.win_ratio)
-
-  return scoreboard
+  return winRatioList
+    .filter(player => player.play_count > 0)
+    .sort((playerA, playerB) => playerB.win_ratio - playerA.win_ratio)
 }
 
 export default Scoreboard

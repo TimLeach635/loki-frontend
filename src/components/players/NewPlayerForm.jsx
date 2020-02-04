@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const NewPlayerForm = ({refreshFunc}) => {
+const NewPlayerForm = ({refreshFunc, backendUrl}) => {
   // Use state
   const [ firstNameValue, setFirstNameValue ] = useState("")
   const [ lastNameValue, setLastNameValue ] = useState("")
@@ -15,7 +15,7 @@ const NewPlayerForm = ({refreshFunc}) => {
 
   const handleSubmit = () => {
     // Submit as POST request to backend
-    fetch("http://localhost:5000/players/", {
+    fetch(`${backendUrl}/players/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

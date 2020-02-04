@@ -7,6 +7,8 @@ import MatchList from './matches/MatchList'
 
 import lokiLogo from '../Loki_logo.png'
 
+require('dotenv').config()
+
 const Loki = () => {
   // Use state to hold what page we're on
   const [ page, setPage ] = useState('home')
@@ -53,7 +55,7 @@ const Loki = () => {
         <hr />
         <Navbar goHome={goHome} goPlayers={goPlayers} goGames={goGames} goMatches={goMatches} />
         <hr />
-        <Component />
+        <Component backendUrl={process.env.REACT_APP_BACKEND_URL} />
       </div>
     </React.Fragment>
   )
