@@ -18,13 +18,10 @@ const NewGameForm = ({backendUrl, refreshFunc}) => {
       body: JSON.stringify({
         name: nameValue
       })
-    })
+    }).then(refreshFunc)
 
     // then clear
     setNameValue("")
-
-    // then refresh displayed list
-    refreshFunc()
   }
 
   return (

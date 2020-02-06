@@ -32,9 +32,7 @@ const NewMatchForm = ({backendUrl, refreshFunc}) => {
         winner_ids: winner_ids,
         non_winner_ids: non_winner_ids
       })
-    })
-
-    refreshFunc()
+    }).then(refreshFunc)
   }
 
   useEffect(() => {

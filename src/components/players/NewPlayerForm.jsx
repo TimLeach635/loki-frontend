@@ -24,14 +24,11 @@ const NewPlayerForm = ({refreshFunc, backendUrl}) => {
         first_name: firstNameValue,
         last_name: lastNameValue
       })
-    })
+    }).then(refreshFunc)
 
     // then clear
     setFirstNameValue("")
     setLastNameValue("")
-
-    // then refresh displayed list
-    refreshFunc()
   }
 
   return (
